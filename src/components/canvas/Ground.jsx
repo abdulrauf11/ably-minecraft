@@ -1,0 +1,17 @@
+import * as THREE from "three"
+import { useTexture } from "@react-three/drei"
+import { usePlane } from "@react-three/cannon"
+
+ const Ground = (props) => {
+  const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }))
+  const texture = useTexture("/assets/grass.jpg")
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+  return (
+    <mesh ref={ref} receiveShadow>
+      <planeGeometry args={[1000, 1000]} />
+      <meshStandardMaterial map={texture} map-repeat={[240, 240]} color="green" />
+    </mesh>
+  )
+}
+
+export default Ground

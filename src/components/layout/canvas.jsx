@@ -6,11 +6,10 @@ import { useEffect, useRef } from 'react'
 const LControl = () => {
   const dom = useStore((state) => state.dom)
   const control = useRef(null)
-
   useEffect(() => {
     if (control.current) {
       const domElement = dom.current
-      const originalTouchAction = domElement.style['touch-action'] 
+      const originalTouchAction = domElement.style['touch-action']
       domElement.style['touch-action'] = 'none'
 
       return () => {
@@ -21,6 +20,7 @@ const LControl = () => {
   // @ts-ignore
   return <OrbitControls ref={control} domElement={dom.current} />
 }
+
 const LCanvas = ({ children }) => {
   const dom = useStore((state) => state.dom)
 
@@ -32,8 +32,10 @@ const LCanvas = ({ children }) => {
         top: 0,
       }}
       onCreated={(state) => state.events.connect(dom.current)}
+      shadows
+      camera={{ fov: 45 }}
     >
-      <LControl />
+      {/* <LControl /> */}
       <Preload all />
       {children}
     </Canvas>

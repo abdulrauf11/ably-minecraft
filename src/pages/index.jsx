@@ -1,32 +1,39 @@
-import dynamic from 'next/dynamic'
-// Step 5 - delete Instructions components
-import Instructions from '@/components/dom/Instructions'
-// import Shader from '@/components/canvas/Shader/Shader'
-
-// Dynamic import is used to prevent a payload when the website start that will include threejs r3f etc..
-// WARNING ! errors might get obfuscated by using dynamic import.
-// If something goes wrong go back to a static import to show the error.
-// https://github.com/pmndrs/react-three-next/issues/49
-const Shader = dynamic(() => import('@/components/canvas/Shader/Shader'), {
-  ssr: false,
-})
+import Overlay from '@/components/dom/Overlay'
+import { Sky, PointerLockControls } from '@react-three/drei'
+import { Physics } from '@react-three/cannon'
+import Ground from '@/components/canvas/Ground'
+import Player from '@/components/canvas/Player'
+import { Cube, Cubes } from '@/components/canvas/Cube'
+import Participants from '@/components/dom/Participants'
 
 // dom components goes here
 const Page = (props) => {
   return (
     <>
-      <Instructions />
+      <Overlay />
+      <Participants />
     </>
   )
 }
 
 // canvas components goes here
 // It will receive same props as Page component (from getStaticProps, etc.)
-Page.r3f = (props) => (
-  <>
-    <Shader />
-  </>
-)
+Page.r3f = (props) => {
+  return (
+    <>
+      <Sky sunPosition={[100, 20, 100]} />
+      <ambientLight intensity={0.3} />
+      <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
+      <Physics gravity={[0, -30, 0]}>
+        <Ground />
+        <Player />
+        <Cube position={[0, 0.5, -10]} />
+        <Cubes />
+      </Physics>
+      <PointerLockControls />
+    </>
+  )
+}
 
 export default Page
 

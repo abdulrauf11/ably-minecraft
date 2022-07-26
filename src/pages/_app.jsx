@@ -5,6 +5,11 @@ import Header from '@/config'
 import Dom from '@/components/layout/dom'
 import '@/styles/index.css'
 import dynamic from 'next/dynamic'
+import { configureAbly } from '@ably-labs/react-hooks'
+
+configureAbly({
+  authUrl: `${process.env.NEXT_PUBLIC_HOSTNAME}/api/createTokenRequest`,
+})
 
 const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
   ssr: false,
